@@ -1,0 +1,55 @@
+# -*- coding: utf-8 -*-
+"""
+Spyder Editor
+
+This is a temporary script file.
+"""
+
+import os, io, shutil
+
+try:
+    os.mkdir("Folder_Python_txt")
+except:
+    for folder in os.listdir("."):
+        if folder == "Folder_Python_txt":
+            print("La carpeta ya fue creada anteriormente.")
+
+os.chdir("Folder_Python_txt")
+
+archivo_leeme = open("leeme.txt", "w")
+
+texto_leeme = "Este script creara una carpeta de nombre Folder_Python_txt donde \nSe ejecute, recorrera le arbol \n ../ \n y copiara los .txt en una carpeta llamada Carpeta_TXT"
+
+archivo_leeme.write(texto_leeme)
+archivo_leeme.close()
+
+try:
+    os.mkdir("Carpeta_TXT")
+except:
+    pass
+
+os.chdir("Carpeta_TXT")
+
+cont = 0
+
+for root, folder, file in os.walk("../../.."):
+    for archivo in file:
+        try:
+            if "readme.txt" in archivo:
+                cont += 1
+                path_origen = os.path.join(root, archivo)
+                shutil.copy(path_origen, str(archivo))
+        except:
+            pass
+
+
+os.chdir("..")
+archivo_cont = open  ("Resultados.txt","w")
+texto_cont = "Se generaron " + str(cont) + " archivos 'readme.txt'\nSi el numero de archivos generados no coinciden con la cantidad en Carpeta_txt\nEs porque el sistema no permite copiarlos porque estan protegidos"
+archivo_cont.write(texto_cont)
+archivo_cont.close()
+
+
+    
+
+
